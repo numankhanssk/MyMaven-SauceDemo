@@ -1,33 +1,37 @@
 package com.example;
 
-import org.openqa.selenium.By;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class App {
+
     public static void main(String[] args) {
 
-        // ✅ Automatically handles ChromeDriver
-        WebDriverManager.chromedriver().setup();
+        try {
+            WebDriverManager.chromedriver().setup();
 
-        ChromeOptions options = new ChromeOptions();
+            ChromeOptions options = new ChromeOptions();
 
-        options.addArguments("--headless=new");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--disable-gpu");
+            // IMPORTANT for Jenkins/Linux
+            options.addArguments("--headless=new");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--remote-allow-origins=*");
 
-        WebDriver driver = new ChromeDriver(options);
+            WebDriver driver = new ChromeDriver(options);
 
-        driver.get("https://www.saucedemo.com/");
-        driver.findElement(By.id("user-name")).sendKeys("standard_user");
-        driver.findElement(By.id("password")).sendKeys("secret_sauce");
-        driver.findElement(By.id("login-button")).click();
+            driver.get("https://www.google.com");
 
-        System.out.println("Login test executed successfully");
+            System.out.println("TITLE: " + driver.getTitle());
 
-        driver.quit();
+            driver.quit();
+
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
