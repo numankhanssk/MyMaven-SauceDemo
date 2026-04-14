@@ -33,7 +33,7 @@
       <version>4.29.0</version>
     </dependency>
 
-    <!-- ✅ WebDriverManager (FIX FOR YOUR ERROR) -->
+    <!-- WebDriverManager (FIX FOR YOUR ERROR) -->
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
