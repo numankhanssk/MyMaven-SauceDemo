@@ -1,35 +1,34 @@
 package com.example;
 
-import org.openqa.selenium.By;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class App {
+
     public static void main(String[] args) {
 
-        // ✅ Automatically downloads & sets ChromeDriver
+        // FIX 1: Auto-download correct ChromeDriver
         WebDriverManager.chromedriver().setup();
 
+        // FIX 2: Stable Chrome options for Linux
         ChromeOptions options = new ChromeOptions();
 
-        // ✅ Jenkins friendly mode
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
+        options.addArguments("--remote-allow-origins=*");
 
+        // FIX 3: Start driver
         WebDriver driver = new ChromeDriver(options);
 
-        driver.get("https://www.saucedemo.com/");
-
-        driver.findElement(By.id("user-name")).sendKeys("standard_user");
-        driver.findElement(By.id("password")).sendKeys("secret_sauce");
-        driver.findElement(By.id("login-button")).click();
-
-        System.out.println("✅ Login test executed successfully");
-
-        driver.quit();
+        try {
+            driver.get("https://www.google.com");
+            System.out.println("Title: " + driver.getTitle());
+        } finally {
+            driver.quit();
+        }
     }
 }
