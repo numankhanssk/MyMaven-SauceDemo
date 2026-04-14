@@ -1,6 +1,7 @@
 package com.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,7 +15,7 @@ public class App {
 
             ChromeOptions options = new ChromeOptions();
 
-            // IMPORTANT for Jenkins/Linux
+            // Jenkins/Linux safe mode
             options.addArguments("--headless=new");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
@@ -23,10 +24,21 @@ public class App {
 
             WebDriver driver = new ChromeDriver(options);
 
-            driver.get("https://www.google.com");
+            // Open SauceDemo
+            driver.get("https://www.saucedemo.com/");
 
-            System.out.println("TITLE: " + driver.getTitle());
+            // Maximize (works in non-headless too; safe to keep)
+            driver.manage().window().maximize();
 
+            // Login steps
+            driver.findElement(By.id("user-name")).sendKeys("standard_user");
+            driver.findElement(By.id("password")).sendKeys("secret_sauce");
+            driver.findElement(By.id("login-button")).click();
+
+            // Print after login
+            System.out.println("TITLE AFTER LOGIN: " + driver.getTitle());
+
+            // Close browser
             driver.quit();
 
         } catch (Exception e) {
