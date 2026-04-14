@@ -7,12 +7,16 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public class App 
 {
-    public static void main( String[] args )
+    public static void main(String[] args)
     {
         ChromeOptions options = new ChromeOptions();
+
+        options.setBinary("/usr/bin/google-chrome");  // use system Chrome
+
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
 
         WebDriver driver = new ChromeDriver(options);
 
