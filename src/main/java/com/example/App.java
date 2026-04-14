@@ -9,9 +9,11 @@ public class App
 {
     public static void main(String[] args)
     {
-        ChromeOptions options = new ChromeOptions();
+        // ⭐ Force system Chrome
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 
-        options.setBinary("/usr/bin/google-chrome");  // use system Chrome
+        ChromeOptions options = new ChromeOptions();
+        options.setBinary("/usr/bin/google-chrome");
 
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
@@ -21,7 +23,6 @@ public class App
         WebDriver driver = new ChromeDriver(options);
 
         driver.get("https://www.saucedemo.com/");
-        driver.manage().window().maximize();
         driver.findElement(By.id("user-name")).sendKeys("standard_user");
         driver.findElement(By.id("password")).sendKeys("secret_sauce");
         driver.findElement(By.id("login-button")).click();
